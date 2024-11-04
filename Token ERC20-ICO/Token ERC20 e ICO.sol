@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0
 
 pragma solidity >=0.5.0 <0.9.0;
+ 
  // EIP-20: EC-20 Token Standard
 
 interface ERC20Interface {
+    
     //funzioni obbligtorie
+    
     function totalSupply() external view returns (uint);
     function balanceOf(address tokenOwner) external view returns (uint balance);
     function transfer(address to, uint value) external returns (bool success);
@@ -79,13 +82,14 @@ contract Cryptos is ERC20Interface {
 }
 
 //lanciare ICO 
+
 contract CryptosICO is Cryptos{
     address public admin;
     address payable public deposit;
-    uint tokenPrice = 0.001 ether; // 1ETH = 1000 CRPT, 1CRPT = 0.001 ETH
+    uint tokenPrice = 0.001 ether;                  // 1ETH = 1000 CRPT, 1CRPT = 0.001 ETH
     uint public hardCap = 300 ether;
     uint public raisedAmount;
-    uint public saleStart = block.timestamp; //ICO inizia adesso
+    uint public saleStart = block.timestamp;        //ICO inizia adesso
     uint public saleEnd = block.timestamp + 604800; // ico finisce in una settimana
    
     uint public tokenTradeStart = saleEnd + 604800; // trasferibili una settimana dopo la fine
@@ -106,7 +110,7 @@ contract CryptosICO is Cryptos{
         _;
     }
 
-    function halt() public onlyAdmin{  //emergency stop
+    function halt() public onlyAdmin{      //emergency stop
         icoState = State.halted;
     }
 
@@ -166,7 +170,7 @@ contract CryptosICO is Cryptos{
         return true;
     }
 
-    function burn() public returns(bool){  //bruciare token non venduti
+    function burn() public returns(bool){       //bruciare token non venduti
         icoState = getCurrentState();
         require(icoState == State.afterEnd);
         balances[founder] = 0;
